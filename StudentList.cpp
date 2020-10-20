@@ -29,14 +29,12 @@ int main() {
   cout << "QUIT to exit" << endl;
   cout << "--------------------------" << endl;
   while (exit == 0) {
-    cout << "test" << endl;
     cin >> input;
     cout << input << endl;
     //checks if user typed ADD, PRINT, DELETE, QUIT, or something else
     if (input[0] == 'A' && input[1] == 'D' && input[2] == 'D') {
       cout << "Here" << endl;
       add_student(list);
-	cout << list->size() << endl;
     }
     else if (input[0] == 'P' && input[1] == 'R' && input[2] == 'I' && input[3] == 'N' && input[4] == 'T' ) { 
       print_student(list);
@@ -59,7 +57,6 @@ int main() {
 
 //add student
 void add_student(vector<student*>* paramlist) {
-  cout << "here" << endl;
   student* new_student = new student();
   //adds first name
   new_student->first_name = new char[80];
@@ -88,15 +85,24 @@ void print_student(vector<student*>* paramlist) {
 }
 
 
+//delete student by ID number
 void delete_student(vector<student*>* paramlist) {
-  /*student* remove_student = delete student.id();
-    
-    student.erase(
-		 remove_if(student.begin(), student.end(), [&](student) {
-		   return student.id == id;
-		 }),
-		 student.end());
-  */
-  cout << "Enter Student's ID Number To Delete:" << endl; 
+  int input_id;
+  cout << "Enter Student's ID Number To Delete:" << endl;
+  cin >> input_id;
+  cout << input_id << endl;
+  bool found = 0;
+  
+  for (int j = 0; j < list->size(); j++) {
+    if (input_id == list->at(j)->id) {
+      //erase j+1 position element
+      paramlist->erase(paramlist->begin() + j);
+      j = j + list->size() + 1;
+      found = 1;
+      
+    }
+  }
+  if (found == 0) {
+    cout << input_id << " ID is not found" << endl;
+  } 
 }
-
