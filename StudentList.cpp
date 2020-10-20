@@ -2,6 +2,12 @@
 #include <vector>
 #include <cstdlib>
 
+/* Student List that can add, print, and delete students.
+ * It holds FirstName, LastName, ID, and GPA
+ * Author: Ryan Le
+ * Date: 10/18/2020 
+ */
+
 using namespace std;
 
 struct student{
@@ -17,7 +23,7 @@ void delete_student(vector<student*>*);
 vector<student*>* list = new vector<student*>();
 
 int main() {
-  char input[80];
+  char input[80] = {'\0'};
   bool exit = 0;
 
   //Instructions
@@ -30,32 +36,33 @@ int main() {
   cout << "--------------------------" << endl;
   while (exit == 0) {
     cin >> input;
-    cout << input << endl;
+
     //checks if user typed ADD, PRINT, DELETE, QUIT, or something else
-    if (input[0] == 'A' && input[1] == 'D' && input[2] == 'D') {
-      cout << "Here" << endl;
+    if (input[0] == 'A' && input[1] == 'D' && input[2] == 'D' && input[3] == '\0') {
       add_student(list);
     }
-    else if (input[0] == 'P' && input[1] == 'R' && input[2] == 'I' && input[3] == 'N' && input[4] == 'T' ) { 
+    else if (input[0] == 'P' && input[1] == 'R' && input[2] == 'I' && input[3] == 'N' && input[4] == 'T' && input[5] == '\0') { 
       print_student(list);
     }
-    else if (input[0] == 'D' && input[1] == 'E' && input[2] == 'L' && input[3] == 'E' && input[4] == 'T' && input[5] == 'E') {
+    else if (input[0] == 'D' && input[1] == 'E' && input[2] == 'L' && input[3] == 'E' && input[4] == 'T' && input[5] == 'E' && input[6] == '\0') {
       delete_student(list);
     }
-    else if (input[0] == 'Q' && input[1] == 'U' && input[2] == 'I' && input[3] == 'T') {
-      cout << "Exited Program" << endl;
+    else if (input[0] == 'Q' && input[1] == 'U' && input[2] == 'I' && input[3] == 'T' && input[4] == '\0') {
+      cout << "EXITED PROGRAM" << endl;
       exit = 1;
     }
-    
     else {
       cout << "Incorrect Input; ADD, PRINT, DELETE, or QUIT" << endl;
     }
+    cout << "--------------------------" << endl;
+    cout << "ADD, PRINT, DELETE, QUIT" << endl;
   }
   return 0;
 }
  
 
 //add student
+//Reference from Mr. Galbraith main2.cpp
 void add_student(vector<student*>* paramlist) {
   student* new_student = new student();
   //adds first name
@@ -72,20 +79,28 @@ void add_student(vector<student*>* paramlist) {
   //adds gpa
   cout << "Enter Student's GPA:" << endl;
   cin >> new_student->gpa;
-  cout << "Student Added" << endl;
-  
+  cout << "    ~ STUDENT ADDED ~    " << endl;
   paramlist->push_back(new_student);
 }
 
 //print all students
 void print_student(vector<student*>* paramlist) {
+  cout << "ORDER: FIRST LAST, ID, GPA \n" << endl; 
+  
   for(int i = 0; i < list->size(); i++) {  
-  cout << list->at(i)->first_name << " " << list->at(i)->last_name << ", " << list->at(i)->id << ", " << list->at(i)->gpa << endl;
+    //prints first, last, & id
+    cout << list->at(i)->first_name << " " << list->at(i)->last_name << ", " << list->at(i)->id << ", ";
+    //prints gpa
+    cout.setf(ios::fixed, ios::floatfield);
+    cout.setf(ios::showpoint);
+    cout.precision(2);
+    cout << list->at(i)->gpa << endl;
   }
 }
 
 
 //delete student by ID number
+//Reference for erase elements http://www.cplusplus.com/reference/vector/vector/erase/
 void delete_student(vector<student*>* paramlist) {
   int input_id;
   cout << "Enter Student's ID Number To Delete:" << endl;
@@ -99,6 +114,7 @@ void delete_student(vector<student*>* paramlist) {
       paramlist->erase(paramlist->begin() + j);
       j = j + list->size() + 1;
       found = 1;
+      cout << "~ DELETED STUDENT " << input_id << " ~" << endl;
       
     }
   }
